@@ -19,7 +19,13 @@ jobs:
           service-name: "example-service"
           region: "us-east1"
           unauthenticated: true
-
+      - run:
+          name: Test the deployed service
+          command: |
+            if [ "$(curl -s "$GCP_DEPLOY_ENDPOINT")" != "Hello World!" ]; then
+              echo "Result is unexpected"
+              exit 1;
+            fi
 workflows:
   deploy_service:
     jobs:
